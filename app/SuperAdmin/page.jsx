@@ -28,19 +28,20 @@ const Filter = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const a = await getTopics();
-            const topiclar = a?.topiclar;
+            // Check if window is defined before using it
+            if (typeof window !== 'undefined') {
+                const a = await getTopics();
+                const topiclar = a?.topiclar;
 
-            const filteredTopics = topiclar?.filter((t) => t.MFY === '2-sektor') ?? [];
+                const filteredTopics = topiclar?.filter((t) => t.MFY === '2-sektor') ?? [];
 
-
-            setTopiclar(filteredTopics);
-            setFilteredMavzula(filteredTopics);
+                setTopiclar(filteredTopics);
+                setFilteredMavzula(filteredTopics);
+            }
         };
 
         fetchData();
     }, []);
-
     const [usersAddedByDate, setUsersAddedByDate] = useState({});
 
     useEffect(() => {
@@ -95,7 +96,6 @@ const Filter = () => {
             setTopiclar(filteredTopics);
             setFilteredMavzula(filteredTopics);
 
-            // Count items where newDarsQoldirish === "Sababli"
             const sababliCount = filteredTopics.filter((t) => t.newDarsQoldirish === "Sababli").length;
             setCountSababli(sababliCount);
         };
@@ -115,8 +115,6 @@ const Filter = () => {
 
             setTopiclar(filteredTopics);
             setFilteredMavzula(filteredTopics);
-
-            // Count items where newDarsQoldirish !== "Sababli"
             const notSababliCount = filteredTopics.filter((t) => t.newDarsQoldirish !== "Sababli").length;
             setCountNotSababli(notSababliCount);
         };
